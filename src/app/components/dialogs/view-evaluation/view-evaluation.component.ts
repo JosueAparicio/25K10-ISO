@@ -27,9 +27,12 @@ export class ViewEvaluationComponent implements OnInit {
   public barChartLabels: Label[] = [];
   public barChartType: ChartType = 'bar';
   public barChartLegend = false;
-
+  public left : string = '69';
+  public status : string;
+  public thus : number = 0;
+  public thusc : number = 0;
   public barChartData: ChartDataSets[] = [
-    { data: [], label: 'Caracteristicas' },
+    { data: [], label: '% obtenido' },
   ];
   public ChartColors = [
     {
@@ -40,11 +43,26 @@ export class ViewEvaluationComponent implements OnInit {
   private dialogRef: MatDialogRef<ViewEvaluationComponent>, private auth2: PruebaService, private fb: FormBuilder, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.data.caracteristicas.forEach((element, index) => {
-      this.barChartData[0].data[index] = element.porcentaje;
-      this.barChartLabels[index] = element.nombre;
-    });
+    
+    this.data.porcentaje = Math.round(this.data.porcentaje * 100) / 100;
+    this.data.sumacat = Math.round(this.data.sumacat * 100) / 100;
+    this.data.total = Math.round(this.data.total * 100) / 100;
+    this.data.subtotal = Math.round(this.data.subtotal * 100) / 100;
 
+
+    this.obStatus();
+    this.data.subs.forEach((element, index) => {
+      this.barChartData[0].data[index] = Math.round((element.total / this.data.subtotal) * 100);
+      this.barChartLabels[index] = element.nombre;
+      this.data.subs[index].thus = Math.round(element.thus * 100) / 100;
+      this.data.subs[index].total = Math.round(element.total * 100) / 100;
+      this.thus += element.hus;
+      this.thusc += element.husc;
+
+    });
+    if (this.data.nombre.length > 14){
+      this.left = '60';
+    }
   }
 
   onClose() {
@@ -53,6 +71,20 @@ export class ViewEvaluationComponent implements OnInit {
 
     // events
 
-  
-
+  obStatus(){
+    if (this.data.porcentaje  <= 49){
+      this.status = 'Deficiente'
+    } else if (this.data.porcentaje >= 50 && this.data.porcentaje <= 74){
+      this.status = 'Regular'
+    } else if (this.data.porcentaje >= 75 && this.data.porcentaje <= 89){
+      this.status = 'Acceptable'
+    } else if (this.data.porcentaje >= 90 && this.data.porcentaje <= 94){
+      this.status = 'Bueno'
+    } else if (this.data.porcentaje >= 95 && this.data.porcentajel <= 100){
+      this.status = 'Muy bueno'
+    }
+  }
+  porcentaje(total, sub){
+    return Math.round((total / sub) * 100);
+  }
 }

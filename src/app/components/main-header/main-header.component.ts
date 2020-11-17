@@ -5,6 +5,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { NewProjectComponent } from '../dialogs/new-project/new-project.component';
 
 import Swal from 'sweetalert2'
+import { Router } from '@angular/router';
 
 
 
@@ -20,10 +21,10 @@ export class MainHeaderComponent implements OnInit {
 
   @Input() usuario: any;
   @Input() view: string;
+  @Input() ev: string;
+  @Input() url: string;
 
-
-
-  constructor( private auth2 : PruebaService,  private _snackBar: MatSnackBar, public dialog: MatDialog) { }
+  constructor(private _router: Router, private auth2 : PruebaService,  private _snackBar: MatSnackBar, public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -51,5 +52,9 @@ export class MainHeaderComponent implements OnInit {
       this._snackBar.open(message, action, {
         duration: 5000,
       });
+    }
+
+    back(){
+      this._router.navigate([`${this.url}`])
     }
 }

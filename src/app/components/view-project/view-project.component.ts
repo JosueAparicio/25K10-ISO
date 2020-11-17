@@ -11,6 +11,7 @@ import { ViewEvaluationComponent } from '../dialogs/view-evaluation/view-evaluat
 
 import Swal from 'sweetalert2'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import * as moment from 'moment';
 
 
 
@@ -35,6 +36,8 @@ export class ViewProjectComponent implements OnInit {
   constructor(private _route: ActivatedRoute, private _router: Router, private auth2: PruebaService, private fb: FormBuilder, public dialog: MatDialog) { }
 
   async ngOnInit(): Promise<void> {
+    moment.locale('es')
+
     this.creator = this._route.snapshot.paramMap.get('creator');
     this.id = this._route.snapshot.paramMap.get('project');
 
@@ -66,6 +69,9 @@ export class ViewProjectComponent implements OnInit {
 
         this.auth2.getEvaluations(this.creator, this.id).subscribe (evs =>{
           this.evaluations = evs;
+          this.evaluations.forEach(element => {
+            element.fecha = moment(element.fecha).fromNow()
+      });
         })
       })
     } else {
@@ -188,6 +194,10 @@ export class ViewProjectComponent implements OnInit {
   }
 
   viewEvaluation(evaluation){
+    console.log(evaluation);
+    
+    this._router.navigate([`view-project/details-evalatuation/${this.creator}/${this.id}/${evaluation}`]);
+    /*
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -197,8 +207,9 @@ export class ViewProjectComponent implements OnInit {
     dialogConfig.data = evaluation;
    const ref = this.dialog.open(ViewEvaluationComponent, dialogConfig);
     ref.afterClosed().subscribe(async res => {
-      console.log(res);
+      //console.log(res);
 
   })
+  */
   }
 }

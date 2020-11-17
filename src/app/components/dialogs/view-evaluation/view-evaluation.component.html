@@ -1,47 +1,102 @@
 <mat-toolbar>
-    <span>Evaluacion de {{data.usuario}}</span>
-    <span class="fill-remaining-space"></span>
-    <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1" style="left: 55%;">
-        <mat-icon>clear</mat-icon>
-    </button>
+  <span>Detalles de <strong> {{data.nombre}}</strong></span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1" [style]="'left:' + left+'%'">
+    <mat-icon>clear</mat-icon>
+  </button>
 </mat-toolbar>
 
 
 <mat-tab-group mat-align-tabs="center" style="margin-top: 25px;">
-    <mat-tab label="Barras">
-        <div style="margin-top: 20px;">
+  <mat-tab label="General">
+    <div style="margin-top: 20px;">
+      <div>
+        <div style="display: block; ">
+          <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+            [legend]="barChartLegend" [colors]="ChartColors" [chartType]="barChartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Detalles">
+    <div style="margin-top: 20px;">
+
+
+        <div>
+          <ul class="list-group" style="margin-bottom: 20px;">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Total de la categoria
+              <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{data.total}} </span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Total obtenido 
+              <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{data.sumacat}} </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Total por subcategoria
+              <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{data.subtotal}} </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Historias de usuario de la categoria
+              <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{thus}} </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Historias de usuario cumplidas de la categoria
+              <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{thusc}} </span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Porcentaje total obtenido
+              <span style="font-size: 15px;" class="badge badge-pill" [ngClass]="{
+                'badge-danger' : status == 'Deficiente',
+                'badge-warning '  : status == 'Regular',
+                'badge-info '  : status == 'Acceptable',
+                'badge-primary '  : status == 'Bueno',
+                'badge-success '  : status == 'Muy bueno'
+              }">{{data.porcentaje}}  %</span>
+            </li>
+          </ul>
+        </div>
+
+      <mat-tab-group mat-align-tabs="center">
+        <div *ngFor="let sub of data.subs">
+          <mat-tab label="{{sub.nombre}}">
             <div>
-                <div style="display: block">
-                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-                        [legend]="barChartLegend" [colors]="ChartColors" [chartType]="barChartType">
-                    </canvas>
-                </div>
+              <ul class="list-group" style="margin: 30px;">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Historias de usuario de la subcategoria
+                  <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{sub.hus}} </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Historias de usuario cumplidas de la subcategoria
+                  <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{sub.husc}} </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Valor total de cada historia de usuario de la subcategoria
+                  <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{sub.thus}} </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Suma de las historias de usuario cumplidas de la subcategoria
+                  <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{sub.total}} </span>
+                </li>
+
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Porcentaje historias de usuario cumplidas de la  subcategoria
+                  <span *ngIf="sub.total != 0" style="font-size: 15px;" class="badge badge-primary badge-pill" >{{ porcentaje(sub.total, data.subtotal)}}  %</span>
+                  <span *ngIf="sub.total == 0" style="font-size: 15px;" class="badge badge-primary badge-pill" >{{ sub.total}}  %</span>
+
+                </li>
+              </ul>
             </div>
+          </mat-tab>
         </div>
-    </mat-tab>
-    <mat-tab label="Donas">
-        <div class="body-target">
-            <div class="container-ev-cards">
 
-                <div class="cardd" *ngFor="let caracteristica of this.data.caracteristicas; let i = index">
+      </mat-tab-group>
 
-                    <div class="boxx">
-                        <div class="percent">
-                            <svg>
-                                <circle cx="70" cy="70" r="70"></circle>
-                                <circle class="strouker" cx="70" cy="70" r="70"
-                                    [style.strokeDashoffset]="caracteristica.stroke"></circle>
-                            </svg>
-                            <div class="number">
-                                <h2>{{caracteristica.porcentaje}}<span>%</span></h2>
-                            </div>
-                        </div>
-                        <h2 class="text-category">{{caracteristica.nombre}}</h2>
-                        <button mat-raised-button color="accent">Detalles</button>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </mat-tab>
+    </div>
+  </mat-tab>
+
 </mat-tab-group>

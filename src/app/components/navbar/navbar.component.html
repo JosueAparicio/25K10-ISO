@@ -8,10 +8,11 @@
         ></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a  class="nav-link">Home</a>
+        <a [routerLink]="['/home/dashboard']" [routerLinkActive]="['active']" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a  class="nav-link">Contact</a>
+        <a  [routerLink]="['/home/inbox']" [routerLinkActive]="['active']" class="nav-link">Bandeja</a>
       </li>
+
     </ul>
   </nav>

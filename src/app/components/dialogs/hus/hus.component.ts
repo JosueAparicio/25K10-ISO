@@ -61,4 +61,5 @@ export class HusComponent implements OnInit {
 
     this.auth2.deleteUH(data);
   }
+
 }

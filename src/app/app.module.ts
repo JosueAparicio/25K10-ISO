@@ -39,6 +39,7 @@ import { HusComponent } from './components/dialogs/hus/hus.component';
 import { NewEvaluationComponent } from './components/dialogs/new-evaluation/new-evaluation.component';
 import { CategoryEvaluationComponent } from './components/dialogs/category-evaluation/category-evaluation.component';
 import { ViewEvaluationComponent } from './components/dialogs/view-evaluation/view-evaluation.component';
+import { EvaluationsDetailsComponent } from './components/evaluations-details/evaluations-details.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { ViewEvaluationComponent } from './components/dialogs/view-evaluation/vi
     NewEvaluationComponent,
     CategoryEvaluationComponent,
     ViewEvaluationComponent,
+    EvaluationsDetailsComponent,
   ],
   imports: [
     BrowserModule,

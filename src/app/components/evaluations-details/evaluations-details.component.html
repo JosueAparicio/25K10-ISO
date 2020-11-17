@@ -1,0 +1,136 @@
+<app-navbar [usuario]="usuario.uid" *ngIf="usuario"></app-navbar>
+<app-aside [uid]="usuario.uid" *ngIf="usuario"></app-aside>
+
+<div class="content-wrapper wrapper" style="padding-top: 20px !important;" *ngIf="evaluation">
+
+  <app-main-header *ngIf="url" [url]="url" [ev]="'true'"></app-main-header>
+  <!-- 
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Bar Chart</h3>
+
+
+        </div>
+        <div class="box-body">
+            <div class="chart"  style="width: 800px !important; ">
+                <canvas  baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                [options]="barChartOptions" [legend]="barChartLegend" [colors]="ChartColors"
+                [chartType]="barChartType" >
+            </canvas>               
+         </div>
+        </div>
+        
+    </div>
+     -->
+  <h2 style="text-align: center;">Evaluacion de {{evaluation.usuario}}</h2>
+
+  <section class="content" style="padding: 50px !important;">
+
+
+
+
+    <mat-tab-group mat-align-tabs="center" style="margin-top: 25px;">
+      <mat-tab label="Barras">
+        <div style="margin-top: 20px;">
+          <div>
+            <div style="display: block">
+              <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+                [legend]="barChartLegend" [colors]="ChartColors" [chartType]="barChartType">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Donas">
+        <div class="body-target">
+          <div class="container-ev-cards" style="left: 25% !important;">
+
+            <div class="cardd" *ngFor="let caracteristica of this.evaluation.caracteristicas; let i = index">
+
+              <div class="boxx">
+                <div class="percent">
+                  <svg>
+                    <circle cx="70" cy="70" r="70"></circle>
+                    <circle class="strouker" cx="70" cy="70" r="70" [style.strokeDashoffset]="caracteristica.stroke">
+                    </circle>
+                  </svg>
+                  <div class="number">
+                    <h2>{{caracteristica.porcentaje}}<span>%</span></h2>
+                  </div>
+                </div>
+                <h2 class="text-category">{{caracteristica.nombre}}</h2>
+                <button mat-raised-button color="accent" (click)="detalles(caracteristica)">Detalles</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Detalles">
+        <div style="margin-top: 20px;">
+          <div>
+            <ul class="list-group" style="margin-bottom: 20px;">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Evaluador
+                <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{evaluation.usuario}} </span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Fecha de la evaluacion
+                <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{evaluation.fecha}} </span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Historias de usuario totales
+                <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{thus}} </span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Historias de usuario cumplidas
+                <span style="font-size: 15px;" class="badge badge-primary badge-pill">{{husc}} </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Porcentaje de historias de usuario cumplidas
+                <span *ngIf="thus != 0" style="font-size: 15px;"
+                  class="badge badge-primary badge-pill">{{ porcentaje(husc, thus)}} %</span>
+                <span *ngIf="thus == 0" style="font-size: 15px;"
+                  class="badge badge-primary badge-pill">{{thus}} %</span>
+              </li>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Porcentaje total obtenido de la evaluacion
+                <span style="font-size: 15px;" class="badge badge-primary badge-pill" [ngClass]="{
+                                'badge-danger' : evaluation.status == 'Deficiente',
+                                'badge-warning '  : evaluation.status == 'Regular',
+                                'badge-info '  : evaluation.status == 'Acceptable',
+                                'badge-primary '  : evaluation.status == 'Bueno',
+                                'badge-success '  : evaluation.status == 'Muy bueno'
+                              }">{{evaluation.porcentaje}} % </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Status
+                <span style="font-size: 15px;" class="badge badge-primary badge-pill" [ngClass]="{
+                                'badge-danger' : evaluation.status == 'Deficiente',
+                                'badge-warning '  : evaluation.status == 'Regular',
+                                'badge-info '  : evaluation.status == 'Acceptable',
+                                'badge-primary '  : evaluation.status == 'Bueno',
+                                'badge-success '  : evaluation.status == 'Muy bueno'
+                              }">{{evaluation.status}} </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Comentario
+                <span style="font-size: 11.5px;" class="badge badge-ligth badge-pill">{{evaluation.comentario}} </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+  </section>
+
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<app-footer [status]="'home'"></app-footer>

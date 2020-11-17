@@ -25,6 +25,7 @@
     "angularfire2": "^5.4.2",
     "chart.js": "^2.9.4",
     "firebase": "^7.23.0",
+    "moment": "^2.29.1",
     "ng2-charts": "^2.4.2",
     "rxjs": "~6.5.5",
     "sweetalert2": "^10.6.1",

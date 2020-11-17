@@ -22,16 +22,32 @@ export class PruebaService {
         if (provider == 'google') {
             return await this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(data => {
                 // console.log(data.user);
-                this.createNewUser(data.user);
-                this._router.navigate(['/home/dashboard']);
+                this.getUserData(data.user.uid).subscribe(user =>{
+                    if(user){
+                        this._router.navigate(['/home/dashboard']);
+
+                    } else{
+                        this.createNewUser(data.user);
+                        this._router.navigate(['/home/dashboard']);
+
+                    }
+                });
             });
         }
 
         else if (provider == 'github') {
             return await this.afAuth.auth.signInWithPopup(new firebase.auth.GithubAuthProvider()).then(data => {
                 //console.log(data.user);
-                this.createNewUser(data.user);
-                this._router.navigate(['/home/dashboard']);
+                this.getUserData(data.user.uid).subscribe(user =>{
+                    if(user){
+                        this._router.navigate(['/home/dashboard']);
+
+                    } else{
+                        this.createNewUser(data.user);
+                        this._router.navigate(['/home/dashboard']);
+
+                    }
+                });                
             });
         }
 
@@ -261,9 +277,15 @@ export class PruebaService {
 
             return actions.map(a => {
                 const data = a.payload.doc.data() as any;
-                data.id = a.payload.doc.id
+                data.id = a.payload.doc.id;
                 return data;
             })
         }));
+    }
+
+    getEvaluation(creator, project, ev){
+
+        return this.db.doc(`users/${creator}/projects/${project}/evaluations/${ev}`).valueChanges();
+        
     }
 }

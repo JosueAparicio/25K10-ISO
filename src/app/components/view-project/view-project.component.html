@@ -46,7 +46,7 @@
             <tbody *ngFor="let evaluation of evaluations">
               <tr>
                 <td>{{evaluation.usuario}}</td>
-                <td>Hace 2 dias</td>
+                <td>{{evaluation.fecha}}</td>
                 <td><span class="badge " [ngClass]="{
                   'bg-red' : evaluation.status == 'Deficiente',
                   'bg-warning '  : evaluation.status == 'Regular',
@@ -74,7 +74,7 @@
                 </td>
 
                 <td>{{evaluation.comentario}}</td>
-                <td class="mailbox-attachment"><a style="cursor: pointer;" (click)="viewEvaluation(evaluation)"><i class="fa fa-link"></i> </a> </td>
+                <td class="mailbox-attachment"><a style="cursor: pointer;" (click)="viewEvaluation(evaluation.id)"><i class="fa fa-link"></i> </a> </td>
 
               </tr>
 
