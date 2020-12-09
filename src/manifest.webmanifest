@@ -1,6 +1,6 @@
 {
-  "name": "ISO proscanner 25K10",
-  "short_name": "ISO proscanner 25K10",
+  "name": "ISOproscanner",
+  "short_name": "ISOproscanner",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
