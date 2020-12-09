@@ -40,6 +40,7 @@ import { NewEvaluationComponent } from './components/dialogs/new-evaluation/new-
 import { CategoryEvaluationComponent } from './components/dialogs/category-evaluation/category-evaluation.component';
 import { ViewEvaluationComponent } from './components/dialogs/view-evaluation/view-evaluation.component';
 import { EvaluationsDetailsComponent } from './components/evaluations-details/evaluations-details.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { EvaluationsDetailsComponent } from './components/evaluations-details/ev
     MaterialModule,
     routing,
     BrowserAnimationsModule,
-    ChartsModule
+    ChartsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [
     NewProjectComponent,
